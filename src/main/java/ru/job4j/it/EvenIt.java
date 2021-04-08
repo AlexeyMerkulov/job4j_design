@@ -17,6 +17,7 @@ public class EvenIt implements Iterator<Integer> {
         for (int i = point; i < data.length; i++) {
             if (data[i] % 2 == 0) {
                 rsl = true;
+                point = i;
                 break;
             }
         }
@@ -25,17 +26,9 @@ public class EvenIt implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-        Integer rsl = null;
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        for (int i = point; i < data.length; i++) {
-            if (data[i] % 2 == 0) {
-                rsl = data[i];
-                point = i + 1;
-                break;
-            }
-        }
-        return rsl;
+        return data[point++];
     }
 }

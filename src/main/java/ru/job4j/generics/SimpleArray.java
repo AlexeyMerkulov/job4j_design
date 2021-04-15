@@ -42,7 +42,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
         @Override
         public boolean hasNext() {
-            return cursor < array.length;
+            return cursor < count;
         }
 
         @Override

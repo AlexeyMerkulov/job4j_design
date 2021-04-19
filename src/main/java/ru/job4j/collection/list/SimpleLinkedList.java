@@ -42,7 +42,7 @@ public class SimpleLinkedList<E> implements Iterable<E> {
     private class Itr implements Iterator<E> {
         int cursor = 0;
         int expectedModCount = modCount;
-        Node<E> element;
+        Node<E> element = first;
 
         @Override
         public boolean hasNext() {
@@ -57,9 +57,7 @@ public class SimpleLinkedList<E> implements Iterable<E> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            if (cursor == 0) {
-                element = first;
-            }  else {
+            if (cursor != 0) {
                 element = element.next;
             }
             cursor++;

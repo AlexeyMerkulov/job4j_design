@@ -88,7 +88,7 @@ public class SimpleHashMapTest {
     public void whenCorruptedIt() {
         SimpleHashMap<Integer, String> map = new SimpleHashMap<>();
         map.insert(1, "one");
-        Iterator<SimpleHashMap.Node> it = map.iterator();
+        Iterator<SimpleHashMap.Node<Integer, String>> it = map.iterator();
         map.insert(2, "two");
         it.next();
     }

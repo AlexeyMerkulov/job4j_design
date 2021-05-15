@@ -6,7 +6,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node> {
+public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
+    private final double LOAD_FACTOR = 0.75;
     private Node<K, V>[] container;
     private int count;
     private int modCount;
@@ -17,18 +18,18 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node> {
 
     private int checkKey(K key) {
         int rsl = -1;
-        for (int i = 0; i < container.length; i++) {
-            if (container[i] != null) {
-                if (key == null && container[i].key == null) {
-                    rsl = i;
-                    break;
-                } else if (key != null && hash(key.hashCode(), container.length) == container[i].hash) {
-                    if (Objects.equals(key, container[i].key)) {
-                        rsl = i;
-                        break;
-                    }
-                    rsl = -10;
-                }
+        if (key == null) {
+            if (container[0] != null) {
+                rsl = 0;
+            }
+            return rsl;
+        }
+        int index = hash(key.hashCode(), container.length);
+        if (container[index] != null) {
+            if (Objects.equals(key, container[index].key)) {
+                rsl = index;
+            } else {
+                rsl = -10;
             }
         }
         return rsl;
@@ -42,7 +43,11 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node> {
         Node<K, V>[] newContainer = new Node[container.length * 2];
         for (Node<K, V> node : container) {
             if (node != null) {
-                newContainer[hash(node.key.hashCode(), newContainer.length)] = node;
+                if (node.key == null) {
+                    newContainer[0] = node;
+                } else {
+                    newContainer[hash(node.key.hashCode(), newContainer.length)] = node;
+                }
             }
         }
         container = newContainer;
@@ -58,11 +63,15 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node> {
             rsl = false;
         } else {
             Node<K, V> node = new Node<>(key, value);
-            container[node.hash] = node;
+            if (key == null) {
+                container[0] = node;
+            } else {
+                container[hash(key.hashCode(), container.length)] = node;
+            }
             count++;
             modCount++;
         }
-        if (container.length * 0.75 == count + 1) {
+        if (container.length * LOAD_FACTOR == count + 1) {
             expand();
         }
         return rsl;
@@ -79,17 +88,18 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node> {
         if (index != -1 && index != -10) {
             container[index] = null;
             count--;
+            modCount++;
             rsl = true;
         }
         return rsl;
     }
 
     @Override
-    public Iterator<SimpleHashMap.Node> iterator() {
-        return new SimpleHashMap.Itr();
+    public Iterator<SimpleHashMap.Node<K, V>> iterator() {
+        return new SimpleHashMap<K, V>.Itr();
     }
 
-    private class Itr implements Iterator<Node> {
+    private class Itr implements Iterator<Node<K, V>> {
         int cursor = 0;
         int expectedModCount = modCount;
 
@@ -109,7 +119,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node> {
         }
 
         @Override
-        public Node next() {
+        public Node<K, V> next() {
             if (expectedModCount != modCount) {
                 throw new ConcurrentModificationException();
             }
@@ -120,19 +130,21 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node> {
         }
     }
 
-    class Node<K, V> {
+    static class Node<K, V> {
         K key;
         V value;
-        int hash;
 
         public Node(K key, V value) {
             this.key = key;
             this.value = value;
-            if (key == null) {
-                hash = 0;
-            } else {
-                hash = hash(key.hashCode(), container.length);
-            }
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
         }
     }
 }

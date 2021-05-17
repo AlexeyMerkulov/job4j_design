@@ -8,6 +8,7 @@ import java.util.Objects;
 
 public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
     private final double LOAD_FACTOR = 0.75;
+    private final int collisionIndex = -10;
     private Node<K, V>[] container;
     private int count;
     private int modCount;
@@ -29,7 +30,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
             if (Objects.equals(key, container[index].key)) {
                 rsl = index;
             } else {
-                rsl = -10;
+                rsl = collisionIndex;
             }
         }
         return rsl;
@@ -59,7 +60,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
         if (index > -1) {
             container[index].value = value;
             modCount++;
-        } else if (index == -10) {
+        } else if (index == collisionIndex) {
             rsl = false;
         } else {
             Node<K, V> node = new Node<>(key, value);
@@ -79,13 +80,13 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
 
     public V get(K key) {
         int index = checkKey(key);
-        return index == -1 || index == -10 ? null : container[index].value;
+        return index == -1 || index == collisionIndex ? null : container[index].value;
     }
 
     public boolean delete(K key) {
         int index = checkKey(key);
         boolean rsl = false;
-        if (index != -1 && index != -10) {
+        if (index != -1 && index != collisionIndex) {
             container[index] = null;
             count--;
             modCount++;

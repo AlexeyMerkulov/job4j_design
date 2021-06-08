@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
-    private final double LOAD_FACTOR = 0.75;
+    private final double loadFactor = 0.75;
     private final int collisionIndex = -10;
     private Node<K, V>[] container;
     private int count;
@@ -72,7 +72,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
             count++;
             modCount++;
         }
-        if (container.length * LOAD_FACTOR == count + 1) {
+        if (container.length * loadFactor == count + 1) {
             expand();
         }
         return rsl;

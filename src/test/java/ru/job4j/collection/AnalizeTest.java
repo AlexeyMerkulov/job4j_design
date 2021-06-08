@@ -17,9 +17,9 @@ public class AnalizeTest {
         previous.add(new Analize.User(3, "Gleb"));
         previous.add(new Analize.User(4, "Dmitriy"));
         previous.add(new Analize.User(5, "Nikita"));
-        List<Analize.User> current = List.of(new Analize.User(1, "Andrey")
-                , new Analize.User(2, "Evgeniy")
-                , new Analize.User(3, "Gleb"));
+        List<Analize.User> current = List.of(new Analize.User(1, "Andrey"),
+                new Analize.User(2, "Evgeniy"),
+                new Analize.User(3, "Gleb"));
         Analize analize = new Analize();
         Analize.Info info = analize.diff(previous, current);
         assertThat(info.changed, is(1));
@@ -51,9 +51,9 @@ public class AnalizeTest {
         previous.add(new Analize.User(3, "Gleb"));
         previous.add(new Analize.User(4, "Dmitriy"));
         previous.add(new Analize.User(5, "Nikita"));
-        List<Analize.User> current = List.of(new Analize.User(7, "Andrey")
-                , new Analize.User(8, "Boris")
-                , new Analize.User(9, "Gleb"));
+        List<Analize.User> current = List.of(new Analize.User(7, "Andrey"),
+                new Analize.User(8, "Boris"),
+                new Analize.User(9, "Gleb"));
         Analize analize = new Analize();
         Analize.Info info = analize.diff(previous, current);
         assertThat(info.added, is(3));

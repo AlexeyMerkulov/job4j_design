@@ -27,7 +27,7 @@ public class ListUtilsTest {
     @Test
     public void whenAddAfterLast() {
         List<Integer> input = new ArrayList<>(Arrays.asList(0, 1, 2));
-        ListUtils.addAfter(input,2, 3);
+        ListUtils.addAfter(input, 2, 3);
         assertThat(Arrays.asList(0, 1, 2, 3), Is.is(input));
     }
 
@@ -41,14 +41,14 @@ public class ListUtilsTest {
     @Test
     public void whenRemoveElement() {
         List<Integer> input = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
-        ListUtils.removeIf(input,x -> x % 2 == 0);
+        ListUtils.removeIf(input, x -> x % 2 == 0);
         assertThat(Arrays.asList(1, 3), Is.is(input));
     }
 
     @Test
     public void whenReplaceElement() {
         List<Integer> input = new ArrayList<>(Arrays.asList(1, 2, 3, 9));
-        ListUtils.replaceIf(input,x -> x % 3 == 0, 0);
+        ListUtils.replaceIf(input, x -> x % 3 == 0, 0);
         assertThat(Arrays.asList(1, 2, 0, 0), Is.is(input));
     }
 

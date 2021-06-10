@@ -2,8 +2,6 @@ package ru.job4j.io;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ArgsName {
 
@@ -17,19 +15,15 @@ public class ArgsName {
         if (args.length == 0) {
             throw new IllegalArgumentException();
         }
-        Pattern pattern = Pattern.compile("[^\\-].+");
         for (String s : args) {
-            Matcher matcher = pattern.matcher(s);
-            while (matcher.find()) {
-                String[] rsl = matcher.group().split("=");
-                if (rsl.length < 2) {
-                    throw new IllegalArgumentException();
-                } else {
-                    values.put(rsl[0], rsl[1]);
+            String[] rsl = s.split("=");
+            if (rsl.length < 2) {
+                throw new IllegalArgumentException();
+            } else {
+                values.put(rsl[0].substring(1), rsl[1]);
                 }
             }
         }
-    }
 
     public static ArgsName of(String[] args) {
         ArgsName names = new ArgsName();

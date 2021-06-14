@@ -12,14 +12,25 @@ public class EchoServer {
                 try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
-                    for (String str = in.readLine(); str != null && !str.isEmpty(); str = in.readLine()) {
-                        if (str.equals("GET /?msg=Bye HTTP/1.1")) {
-                            server.close();
-                            break;
+                    String input = in.readLine();
+                    if (input != null && !input.isEmpty()) {
+                        System.out.println(input);
+                        String answer = input.split("[= ]")[2];
+                        switch (answer) {
+                            case "Exit" -> server.close();
+                            case "Hello" -> {
+                                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                                out.write("Hello".getBytes());
+                            }
+                            default -> {
+                                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                                out.write("What".getBytes());
+                            }
                         }
-                        System.out.println(str);
+                    } else {
+                        out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                        out.write("Enter not empty phrase".getBytes());
                     }
-                    out.write("HTTP/1.1 200 OK\r\n".getBytes());
                 }
             }
         }

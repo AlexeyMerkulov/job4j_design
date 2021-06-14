@@ -38,38 +38,41 @@ public class ConsoleChat {
 
     public void run() {
         getListOfAnswers();
+        List<String> rsl = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
-        try (PrintWriter pw = new PrintWriter(new FileWriter(path))) {
-            System.out.println("Введите фразу");
-            String input = scanner.nextLine();
-            String flag = CONTINUE;
-            while (!input.equals(OUT)) {
-                pw.println(input);
-                if (!flag.equals(STOP)) {
-                    switch (input) {
-                        case STOP:
-                            flag = STOP;
-                            break;
-                        case CONTINUE:
-                            flag = CONTINUE;
-                        default:
-                            String answer = getAnswer();
-                            System.out.println(answer);
-                            pw.println(answer);
-                    }
-                } else if (input.equals(CONTINUE)) {
+        System.out.println("Введите фразу");
+        String input = scanner.nextLine();
+        String flag = CONTINUE;
+        while (!input.equals(OUT)) {
+            rsl.add(input);
+            if (!flag.equals(STOP)) {
+                switch (input) {
+                    case STOP:
+                        flag = STOP;
+                        break;
+                    case CONTINUE:
                         flag = CONTINUE;
-                    }
-                System.out.println("Введите фразу");
-                input = scanner.nextLine();
+                    default:
+                        String answer = getAnswer();
+                        System.out.println(answer);
+                        rsl.add(answer);
+                }
+            } else if (input.equals(CONTINUE)) {
+                flag = CONTINUE;
             }
+            System.out.println("Введите фразу");
+            input = scanner.nextLine();
+        }
+        try (PrintWriter pw = new PrintWriter(new FileWriter(path))) {
+            rsl.forEach(s -> pw.println(s));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
-        ConsoleChat cc = new ConsoleChat("", "");
+        ConsoleChat cc = new ConsoleChat("C:\\Users\\Alexey\\Desktop\\IO\\log.txt",
+                "C:\\Users\\Alexey\\Desktop\\IO\\answers.txt");
         cc.run();
     }
 }

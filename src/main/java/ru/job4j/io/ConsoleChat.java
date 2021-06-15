@@ -36,6 +36,14 @@ public class ConsoleChat {
         return listOfAnswers.get(new Random().nextInt(listOfAnswers.size()));
     }
 
+    private void writeInFile(List<String> list, String filePath) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(filePath))) {
+            list.forEach(s -> pw.println(s));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void run() {
         getListOfAnswers();
         List<String> rsl = new ArrayList<>();
@@ -63,11 +71,7 @@ public class ConsoleChat {
             System.out.println("Введите фразу");
             input = scanner.nextLine();
         }
-        try (PrintWriter pw = new PrintWriter(new FileWriter(path))) {
-            rsl.forEach(s -> pw.println(s));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        writeInFile(rsl, path);
     }
 
     public static void main(String[] args) {

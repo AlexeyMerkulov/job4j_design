@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<car isNew="true" price="25000" name="Mazda">
+    <engine type="2.5L"/>
+    <options>
+        <option>metallic paint</option>
+        <option>winter tires</option>
+    </options>
+</car>

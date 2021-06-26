@@ -6,20 +6,32 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RunFileSearch {
+
+    private static Predicate<Path> predicateWithMatcher(Pattern pattern) {
+        return p -> {
+            Matcher matcher = pattern.matcher(p.toFile().getName());
+            return matcher.matches();
+        };
+    }
 
     public static Predicate<Path> selectSearchType(String typeOfSearch, String value) {
         Predicate<Path> predicate;
         switch (typeOfSearch) {
             case "mask":
-                predicate = p -> p.toFile().getName().endsWith(value.substring(1));
+                Pattern pattern = Pattern.compile(value.replace(".", "\\.").
+                                replace("?", ".?").replace("*", ".*"));
+                predicate = predicateWithMatcher(pattern);
                 break;
             case "name":
                 predicate = p -> p.toFile().getName().equals(value);
                 break;
             case "regex":
-                predicate = p -> p.toFile().getName().matches(value);
+                pattern = Pattern.compile(value);
+                predicate = predicateWithMatcher(pattern);
                 break;
             default:
                 predicate = null;

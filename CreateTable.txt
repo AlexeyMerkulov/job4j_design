@@ -1,0 +1,10 @@
+create table cars(
+    id serial primary key,
+    name varchar(100),
+    model text,
+    price integer,
+    isnew boolean
+);
+insert into cars(name, model, price, isnew) values('BMW', '5-series', 70000, true);
+update cars set model = '3-series';
+delete from cars;

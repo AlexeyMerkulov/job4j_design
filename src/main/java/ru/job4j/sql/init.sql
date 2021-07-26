@@ -1,0 +1,1 @@
+create database scheme_of_rights;

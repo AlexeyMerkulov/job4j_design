@@ -104,7 +104,7 @@ public class TableEditor implements AutoCloseable {
             te.addColumn("cars_table", "year_of_production", "int");
             te.dropColumn("cars_table", "name");
             te.renameColumn("cars_table", "year_of_production", "horse_power");
-            TableEditor.getTableScheme(te.connection, "cars_table");
+            System.out.println(TableEditor.getTableScheme(te.connection, "cars_table"));
         }
     }
 }

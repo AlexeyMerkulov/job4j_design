@@ -23,9 +23,14 @@ public class EchoServer {
                         System.out.println(input);
                         String answer = input.split("[= ]")[2];
                         switch (answer) {
-                            case "Exit" -> server.close();
-                            case "Hello" -> out.write("Hello".getBytes());
-                            default -> out.write("What".getBytes());
+                            case "Exit":
+                                server.close();
+                                break;
+                            case "Hello":
+                                out.write("Hello".getBytes());
+                                break;
+                            default:
+                                out.write("What".getBytes());
                         }
                     } else {
                         out.write("Enter not empty phrase".getBytes());

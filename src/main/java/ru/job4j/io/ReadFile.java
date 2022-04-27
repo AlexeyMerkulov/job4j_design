@@ -10,7 +10,6 @@ public class ReadFile {
             while ((read = in.read()) != -1) {
                 text.append((char) read);
             }
-            //System.out.println(text);
             String[] lines = text.toString().split("\n");
             for (String line : lines) {
                 System.out.println(line);

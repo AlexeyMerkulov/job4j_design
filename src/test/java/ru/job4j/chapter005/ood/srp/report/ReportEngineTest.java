@@ -32,14 +32,15 @@ public class ReportEngineTest {
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
         Report report = new ProgrammerReport(store);
-        String expect = "<html><body>"
-                + "<p>Name; Hired; Fired; Salary;</p><p>"
-                + worker.getName() + ";"
-                + worker.getHired() + ";"
-                + worker.getFired() + ";"
-                + worker.getSalary() + ";"
-                + "</p></body></html>";
-        assertThat(report.generate(em -> true), is(expect));
+        StringBuilder expect = new StringBuilder()
+                .append("<html><body>")
+                .append("<p>Name; Hired; Fired; Salary;</p><p>")
+                .append(worker.getName()).append(";")
+                .append(worker.getHired()).append(";")
+                .append(worker.getFired()).append(";")
+                .append(worker.getSalary()).append(";")
+                .append("</p></body></html>");
+        assertThat(report.generate(em -> true), is(expect.toString()));
     }
 
     @Test
@@ -51,15 +52,16 @@ public class ReportEngineTest {
         Employee worker2 = new Employee("Sergey", now, now, 150);
         store.add(worker2);
         Report report = new HRReport(store);
-        String expect = "Name; Salary;"
-                + System.lineSeparator()
-                + worker2.getName() + ";"
-                + worker2.getSalary() + ";"
-                + System.lineSeparator()
-                + worker1.getName() + ";"
-                + worker1.getSalary() + ";"
-                + System.lineSeparator();
-        assertThat(report.generate(em -> true), is(expect));
+        StringBuilder expect = new StringBuilder()
+                .append("Name; Salary;")
+                .append(System.lineSeparator())
+                .append(worker2.getName()).append(";")
+                .append(worker2.getSalary()).append(";")
+                .append(System.lineSeparator())
+                .append(worker1.getName()).append(";")
+                .append(worker1.getSalary()).append(";")
+                .append(System.lineSeparator());
+        assertThat(report.generate(em -> true), is(expect.toString()));
     }
 
     @Test
@@ -69,13 +71,14 @@ public class ReportEngineTest {
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
         Report report = new AccountantReport(store);
-        String expect = "Name; Hired; Fired; Salary without NDFL;"
-                + System.lineSeparator()
-                + worker.getName() + ";"
-                + worker.getHired() + ";"
-                + worker.getFired() + ";"
-                + (worker.getSalary() * 0.87) + ";"
-                + System.lineSeparator();
-        assertThat(report.generate(em -> true), is(expect));
+        StringBuilder expect = new StringBuilder()
+                .append("Name; Hired; Fired; Salary without NDFL;")
+                .append(System.lineSeparator())
+                .append(worker.getName()).append(";")
+                .append(worker.getHired()).append(";")
+                .append(worker.getFired()).append(";")
+                .append(worker.getSalary() * AccountantReport.NDFL).append(";")
+                .append(System.lineSeparator());
+        assertThat(report.generate(em -> true), is(expect.toString()));
     }
 }

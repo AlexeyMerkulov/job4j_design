@@ -4,6 +4,8 @@ import java.util.function.Predicate;
 
 public class AccountantReport implements Report {
 
+    public static final double NDFL = 0.87;
+
     private Store store;
 
     public AccountantReport(Store store) {
@@ -19,7 +21,7 @@ public class AccountantReport implements Report {
             text.append(employee.getName()).append(";")
                     .append(employee.getHired()).append(";")
                     .append(employee.getFired()).append(";")
-                    .append(employee.getSalary() * 0.87).append(";")
+                    .append(employee.getSalary() * NDFL).append(";")
                     .append(System.lineSeparator());
         }
         return text.toString();

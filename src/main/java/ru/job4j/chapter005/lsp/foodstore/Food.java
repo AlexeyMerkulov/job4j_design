@@ -8,13 +8,14 @@ public class Food {
     private LocalDate expiryDate;
     private LocalDate createDate;
     private double price;
-    private double discount;
+    private int discount;
 
-    public Food(String name, LocalDate expiryDate, LocalDate createDate, double price) {
+    public Food(String name, LocalDate expiryDate, LocalDate createDate, double price, int discount) {
         this.name = name;
         this.expiryDate = expiryDate;
         this.createDate = createDate;
         this.price = price;
+        this.discount = discount;
     }
 
     public String getName() {
@@ -33,7 +34,7 @@ public class Food {
         return price;
     }
 
-    public double getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
@@ -53,7 +54,7 @@ public class Food {
         this.price = price;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 
@@ -66,7 +67,7 @@ public class Food {
             return false;
         }
         Food food = (Food) o;
-        return Double.compare(food.price, price) == 0 && Double.compare(food.discount, discount) == 0
+        return Double.compare(food.price, price) == 0 && food.discount == discount
                 && Objects.equals(name, food.name) && Objects.equals(expiryDate, food.expiryDate)
                 && Objects.equals(createDate, food.createDate);
     }

@@ -8,24 +8,26 @@ import java.util.List;
 public class Shop implements Store {
     private List<Food> foodList = new ArrayList<>();
 
-    private void add(Food food) {
-        foodList.add(food);
+    public boolean add(Food food) {
+        boolean rsl = false;
+        if (checkFood(food)) {
+            if (getPercentLifeExpired(food) > 0.75) {
+                food.setPrice((100 - food.getDiscount()) * 0.01 * food.getPrice());
+            }
+            foodList.add(food);
+            rsl = true;
+        }
+        return rsl;
     }
 
     @Override
     public List<Food> getFoodList() {
-        return foodList;
+        return List.copyOf(foodList);
     }
 
     @Override
-    public void checkFood(Food food) {
-        long daysSinceCreation = ChronoUnit.DAYS.between(food.getCreateDate(), LocalDate.now());
-        long totalDays = ChronoUnit.DAYS.between(food.getCreateDate(), food.getExpiryDate());
-        if (daysSinceCreation >= 0.25 * totalDays && daysSinceCreation < totalDays) {
-            if (daysSinceCreation > 0.75 * totalDays) {
-                food.setDiscount(0.5);
-            }
-            foodList.add(food);
-        }
+    public boolean checkFood(Food food) {
+        double percentLife = getPercentLifeExpired(food);
+        return percentLife >= 0.25 && percentLife < 1;
     }
 }

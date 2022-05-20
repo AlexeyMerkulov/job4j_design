@@ -11,7 +11,9 @@ public class ControlQuality {
 
     public void checkQuality(Food food) {
         for (Store store : stores) {
-            store.checkFood(food);
+            if (store.checkFood(food)) {
+                store.add(food);
+            }
         }
     }
 }

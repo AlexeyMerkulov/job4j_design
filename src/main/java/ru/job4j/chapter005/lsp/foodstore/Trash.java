@@ -8,21 +8,22 @@ import java.util.List;
 public class Trash implements Store {
     private List<Food> foodList = new ArrayList<>();
 
-    private void add(Food food) {
-        foodList.add(food);
+    public boolean add(Food food) {
+        boolean rsl = false;
+        if (checkFood(food)) {
+            foodList.add(food);
+            rsl = true;
+        }
+        return rsl;
     }
 
     @Override
     public List<Food> getFoodList() {
-        return foodList;
+        return List.copyOf(foodList);
     }
 
     @Override
-    public void checkFood(Food food) {
-        long daysSinceCreation = ChronoUnit.DAYS.between(food.getCreateDate(), LocalDate.now());
-        long totalDays = ChronoUnit.DAYS.between(food.getCreateDate(), food.getExpiryDate());
-        if (daysSinceCreation >= totalDays) {
-            foodList.add(food);
-        }
+    public boolean checkFood(Food food) {
+        return getPercentLifeExpired(food) >= 1;
     }
 }

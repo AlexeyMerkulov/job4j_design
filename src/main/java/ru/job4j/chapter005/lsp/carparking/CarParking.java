@@ -8,25 +8,29 @@ public class CarParking implements Parking {
 
     private int truckLots;
 
-    private List<Car> carsList = new ArrayList<>();
+    private List<Car> carsList;;
 
     public CarParking(int carLots, int truckLots) {
         this.passengerCarLots = carLots;
         this.truckLots = truckLots;
+        carsList = new ArrayList<>(carLots + truckLots);
     }
 
     @Override
     public boolean parkCar(Car car) {
         boolean rsl = false;
         int carSize = car.getSize();
-        if (checkFreeSpace(car)) {
-            if (carSize == PassengerCar.SIZE) {
-                passengerCarLots--;
-            } else if (truckLots >= 1) {
-                truckLots--;
-            } else {
-                passengerCarLots = passengerCarLots - carSize;
-            }
+        boolean checkResult = checkFreeSpace(car);
+        if (checkResult && carSize == PassengerCar.SIZE) {
+            passengerCarLots--;
+            carsList.add(car);
+            rsl = true;
+        } else if (checkResult && truckLots >= PassengerCar.SIZE) {
+            truckLots--;
+            carsList.add(car);
+            rsl = true;
+        } else if (checkResult) {
+            passengerCarLots = passengerCarLots - carSize;
             carsList.add(car);
             rsl = true;
         }
@@ -37,14 +41,11 @@ public class CarParking implements Parking {
     public boolean checkFreeSpace(Car car) {
         boolean rsl = false;
         int carSize = car.getSize();
-        if (carSize == PassengerCar.SIZE) {
-            if (passengerCarLots >= 1) {
-                rsl = true;
-            }
-        } else {
-            if (truckLots >= 1 || passengerCarLots - carSize >= 0) {
-                rsl = true;
-            }
+        if (carSize == PassengerCar.SIZE && passengerCarLots >= PassengerCar.SIZE) {
+            rsl = true;
+        } else if (carSize > PassengerCar.SIZE
+                && (truckLots >= PassengerCar.SIZE || passengerCarLots - carSize >= 0)) {
+            rsl = true;
         }
         return rsl;
     }

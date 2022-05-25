@@ -1,13 +1,11 @@
 package ru.job4j.chapter005.lsp.carparking;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class CarParkingTest {
 
-    @Ignore
     @Test
     public void whenFreeLotsLeft() {
         Car passengerCar1 = new PassengerCar();
@@ -23,7 +21,6 @@ public class CarParkingTest {
         assertTrue(parking.parkCar(truck2));
     }
 
-    @Ignore
     @Test
     public void whenNoFreeLotsForPassengerCars() {
         Car passengerCar1 = new PassengerCar();
@@ -39,7 +36,6 @@ public class CarParkingTest {
         assertTrue(parking.parkCar(truck2));
     }
 
-    @Ignore
     @Test
     public void whenNoFreeLotsForTrucks() {
         Car passengerCar1 = new PassengerCar();
@@ -55,7 +51,6 @@ public class CarParkingTest {
         assertTrue(parking.parkCar(truck2));
     }
 
-    @Ignore
     @Test
     public void whenNoFreeLotsAtAll() {
         Car passengerCar1 = new PassengerCar();

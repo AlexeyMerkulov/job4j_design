@@ -15,7 +15,8 @@ public class SimpleMenu implements Menu {
             rsl = true;
         } else {
             Optional<ItemInfo> parent = findItem(parentName);
-            if (parent.isPresent()) {
+            Optional<ItemInfo> child = findItem(childName);
+            if (parent.isPresent() && child.isEmpty()) {
                 parent.map(x -> x.menuItem.getChildren())
                         .ifPresent(x -> x.add(new SimpleMenuItem(childName, actionDelegate)));
                 rsl = true;

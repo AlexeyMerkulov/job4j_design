@@ -9,14 +9,14 @@ public class SimpleMenu implements Menu {
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
         boolean rsl = false;
-        if (Objects.equals(parentName, Menu.ROOT)) {
+        boolean checkChild = findItem(childName).isEmpty();
+        if (checkChild && Objects.equals(parentName, Menu.ROOT)) {
             MenuItem item = new SimpleMenuItem(childName, actionDelegate);
             rootElements.add(item);
             rsl = true;
-        } else {
+        } else if (checkChild) {
             Optional<ItemInfo> parent = findItem(parentName);
-            Optional<ItemInfo> child = findItem(childName);
-            if (parent.isPresent() && child.isEmpty()) {
+            if (parent.isPresent()) {
                 parent.map(x -> x.menuItem.getChildren())
                         .ifPresent(x -> x.add(new SimpleMenuItem(childName, actionDelegate)));
                 rsl = true;

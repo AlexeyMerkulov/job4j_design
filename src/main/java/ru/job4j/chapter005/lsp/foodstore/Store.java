@@ -12,6 +12,8 @@ public interface Store {
 
     boolean checkFood(Food food);
 
+    List<Food> deleteAll();
+
     default double getPercentLifeExpired(Food food) {
         long daysSinceCreation = ChronoUnit.DAYS.between(food.getCreateDate(), LocalDate.now());
         long totalDays = ChronoUnit.DAYS.between(food.getCreateDate(), food.getExpiryDate());

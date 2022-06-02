@@ -24,6 +24,13 @@ public class Warehouse implements Store {
     }
 
     @Override
+    public List<Food> deleteAll() {
+        List<Food> rsl = getFoodList();
+        foodList.clear();
+        return rsl;
+    }
+
+    @Override
     public boolean checkFood(Food food) {
         return getPercentLifeExpired(food) < 0.25;
     }

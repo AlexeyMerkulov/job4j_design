@@ -26,6 +26,13 @@ public class Shop implements Store {
     }
 
     @Override
+    public List<Food> deleteAll() {
+        List<Food> rsl = getFoodList();
+        foodList.clear();
+        return rsl;
+    }
+
+    @Override
     public boolean checkFood(Food food) {
         double percentLife = getPercentLifeExpired(food);
         return percentLife >= 0.25 && percentLife < 1;
